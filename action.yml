@@ -16,9 +16,13 @@ runs:
   steps:
     - run: ls -la
       shell: bash
+    - run: cat README.md
+      shell: bash
     - name: Checkout repository
       uses: actions/checkout@v4
     - run: ls -la
+      shell: bash
+    - run: cat README.md
       shell: bash
     - name: Write timestamp to file
       shell: bash
