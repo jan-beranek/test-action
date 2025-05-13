@@ -1,0 +1,30 @@
+# action.yml for a reusable GitHub Action that writes a timestamp to a file and uploads it as an artifact
+name: 'Timestamp Artifact Action'
+description: 'Writes the current timestamp to a file and uploads it as an artifact.'
+author: 'Your Name'
+inputs:
+  artifact-name:
+    description: 'Name of the artifact to upload'
+    required: false
+    default: 'timestamp-artifact'
+  file-name:
+    description: 'Name of the file to write the timestamp to'
+    required: false
+    default: 'timestamp.txt'
+runs:
+  using: 'composite'
+  steps:
+    - run: ls -la
+      shell: bash
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - run: ls -la
+      shell: bash
+    - name: Write timestamp to file
+      shell: bash
+      run: echo $(date +"%Y-%m-%d_%H-%M-%S") > ${{ inputs.file-name }}
+    - name: Upload timestamp artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.file-name }}
